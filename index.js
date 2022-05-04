@@ -85,6 +85,38 @@ function clearCanvas(canvas) {
   });
 }
 
+function createRec(canvas) {
+  const canvCenter = canvas.getCenter();
+  const rect = new fabric.Rect({
+    height: 100,
+    width: 100,
+    fill: "green",
+    left: canvCenter.left,
+    top: canvCenter.top,
+    originX: "center",
+    originY: "center",
+    cornerColor: "white",
+ 
+  });
+  canvas.add(rect);
+  canvas.renderAll();
+}
+
+function createCir(canvas) {
+  const canvCenter = canvas.getCenter();
+  const circle = new fabric.Circle({
+    radius: 50,
+    fill: "orange",
+    left: canvCenter.left,
+    top: canvCenter.top,
+    originX: "center",
+    originY: "center",
+    cornerColor: "white",
+  });
+  canvas.add(circle);
+  canvas.renderAll();
+}
+
 setColorListener();
 const canvas = initCanvas("canvas");
 let mousePressed = false;

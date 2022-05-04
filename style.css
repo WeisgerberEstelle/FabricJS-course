@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Bellota:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+.objectButton{
+    font-family:'Bellota';
+    background-color: aquamarine;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 20vw;
+    margin-block-start: 1rem;
+    color: rgb(30, 133, 114);
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgb(30, 133, 114);
+}
+
+button{
+    border:none;
+    padding: 0.5rem;
+    border-radius: 50px;
+    font-family: 'Bellota';
+    font-weight: bold;
+    color:rgb(30, 133, 114);
+    background-color: azure;
+    box-shadow: 2px 2px 5px rgb(30, 133, 114);
+    margin-inline-end: 0.3rem;
+}
