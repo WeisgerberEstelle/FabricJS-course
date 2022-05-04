@@ -96,13 +96,21 @@ function createRec(canvas) {
     originX: "center",
     originY: "center",
     cornerColor: "white",
- 
+    objectCaching: false,
   });
   canvas.add(rect);
   canvas.renderAll();
-  rect.animate('top', canvCenter.top, {
-    onChange: canvas.renderAll.bind(canvas)
-  })
+  rect.animate("top", canvCenter.top, {
+    onChange: canvas.renderAll.bind(canvas),
+  });
+  rect.on("selected", () => {
+    rect.set("fill", "lightgreen");
+    canvas.renderAll();
+  });
+  rect.on("deselected", () => {
+    rect.set("fill", "green");
+    canvas.renderAll();
+  });
 }
 
 function createCir(canvas) {
@@ -115,26 +123,51 @@ function createCir(canvas) {
     originX: "center",
     originY: "center",
     cornerColor: "white",
+    objectCaching: false,
   });
   canvas.add(circle);
   canvas.renderAll();
-  circle.animate('top', canvas.height -50, {
+  circle.animate("top", canvas.height - 50, {
     onChange: canvas.renderAll.bind(canvas),
-    onComplete: ()=>{
-      circle.animate('top', canvCenter.top, {
+    onComplete: () => {
+      circle.animate("top", canvCenter.top, {
         onChange: canvas.renderAll.bind(canvas),
-        duration:200,
+        duration: 200,
         easing: fabric.util.ease.easeOutBounce,
+      });
+    },
+  });
+  circle.on("selected", () => {
+    circle.set("fill", "gold");
+    canvas.requestRenderAll();
+  });
+  circle.on("deselected", () => {
+    circle.set("fill", "orange");
+    canvas.requestRenderAll();
+  });
+}
+function groupObject(canvas, group, shouldGroup) {
+  if (shouldGroup) {
+    const objects = canvas.getObjects();
+    group.val = new fabric.Group(objects, { cornerColor: "white" });
+    clearCanvas(canvas);
+    canvas.add(group.val);
+    canvas.requestRenderAll();
+  } else {
+    const oldGroup = group.val.getObjects();
+    canvas.remove(group.val);
+    canvas.add(...oldGroup);
+    group.val = null;
+    canvas.requestRenderAll();
 
-      })
-    }
-  })
+  }
 }
 
 setColorListener();
 const canvas = initCanvas("canvas");
 let mousePressed = false;
 let color = "#000000";
+let group = {};
 
 let currentMode;
 const modes = {
