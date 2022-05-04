@@ -92,7 +92,7 @@ function createRec(canvas) {
     width: 100,
     fill: "green",
     left: canvCenter.left,
-    top: canvCenter.top,
+    top: -50,
     originX: "center",
     originY: "center",
     cornerColor: "white",
@@ -100,6 +100,9 @@ function createRec(canvas) {
   });
   canvas.add(rect);
   canvas.renderAll();
+  rect.animate('top', canvCenter.top, {
+    onChange: canvas.renderAll.bind(canvas)
+  })
 }
 
 function createCir(canvas) {
@@ -108,13 +111,24 @@ function createCir(canvas) {
     radius: 50,
     fill: "orange",
     left: canvCenter.left,
-    top: canvCenter.top,
+    top: -50,
     originX: "center",
     originY: "center",
     cornerColor: "white",
   });
   canvas.add(circle);
   canvas.renderAll();
+  circle.animate('top', canvas.height -50, {
+    onChange: canvas.renderAll.bind(canvas),
+    onComplete: ()=>{
+      circle.animate('top', canvCenter.top, {
+        onChange: canvas.renderAll.bind(canvas),
+        duration:200,
+        easing: fabric.util.ease.easeOutBounce,
+
+      })
+    }
+  })
 }
 
 setColorListener();
