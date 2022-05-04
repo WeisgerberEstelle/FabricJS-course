@@ -31,6 +31,8 @@ function toggleMode(mode) {
       canvas.isDrawingMode = false;
       canvas.renderAll();
     } else {
+      canvas.freeDrawingBrush = new fabric.SprayBrush(canvas);
+      canvas.freeDrawingBrush.width = 15;
       currentMode = modes.drawing;
       canvas.isDrawingMode = true;
       canvas.renderAll();
@@ -48,7 +50,7 @@ function setPanEvents(canvas) {
       const mEvent = event.e;
       const delta = new fabric.Point(mEvent.movementX, mEvent.movementY);
       canvas.relativePan(delta);
-    } 
+    }
   });
 
   canvas.on("mouse:down", (event) => {
@@ -66,8 +68,27 @@ function setPanEvents(canvas) {
   });
 }
 
+function setColorListener() {
+  const picker = document.getElementById("colorPicker");
+  picker.addEventListener("change", (event) => {
+    color = event.target.value;
+    console.log(color);
+    canvas.freeDrawingBrush.color = color;
+    canvas.renderAll();
+  });
+}
+function clearCanvas(canvas) {
+  canvas.getObjects().forEach((object) => {
+    if (object !== canvas.backgroundImage) {
+      canvas.remove(object);
+    }
+  });
+}
+
+setColorListener();
 const canvas = initCanvas("canvas");
 let mousePressed = false;
+let color = "#000000";
 
 let currentMode;
 const modes = {

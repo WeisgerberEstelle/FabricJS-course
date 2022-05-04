@@ -7,10 +7,13 @@
     <title>Document</title>
 </head>
 <body>
+    Color: <input id="colorPicker" value="#000000" data-jscolor="">
     <button onclick="toggleMode(modes.pan)">Toggle Pan</button>
     <button onclick="toggleMode(modes.drawing)">Toggle Drawing</button>
+    <button onclick="clearCanvas(canvas)">Clear</button>
     <canvas id="canvas"></canvas>
     <script src="./lib/fabric.min.js"></script>
     <script src="index.js"></script>
+    <script src="./lib/jscolor.js"></script>
 </body>
 </html>
