@@ -38,7 +38,6 @@ function toggleMode(mode) {
       canvas.renderAll();
     }
   }
-  console.log(currentMode);
 }
 
 function setPanEvents(canvas) {
@@ -151,13 +150,13 @@ function groupObject(canvas, group, shouldGroup) {
   if (shouldGroup) {
     const objects = canvas.getObjects();
     group.val = new fabric.Group(objects, { cornerColor: "white" });
-    clearCanvas(canvas);
+    clearCanvas(canvas, svgState);
     canvas.add(group.val);
     canvas.requestRenderAll();
   } else {
     group.val.destroy();
     const oldGroup = group.val.getObjects();
-    canvas.remove(group.val);
+    clearCanvas(canvas, svgState);
     canvas.add(...oldGroup);
     group.val = null;
     canvas.requestRenderAll();
@@ -167,7 +166,7 @@ function groupObject(canvas, group, shouldGroup) {
 function restoreCanvas(canvas, state, bgURL) {
   if (state.val) {
     fabric.loadSVGFromString(state.val, (objects) => {
-      objects = objects.filter(o => o['xlink:href'] !== bgURL)
+      objects = objects.filter((o) => o["xlink:href"] !== bgURL);
       canvas.add(...objects);
       canvas.requestRenderAll();
     });
@@ -175,9 +174,25 @@ function restoreCanvas(canvas, state, bgURL) {
 }
 
 function imgAdded(event) {
-  const inputImage = document.getElementById('myImage');
+  const inputImage = document.getElementById("myImage");
   const file = inputImage.files[0];
   reader.readAsDataURL(file);
+}
+
+function move(canvas, direction) {
+  const activeObject = canvas.getActiveObject();
+  if (direction === directions.right) {
+    activeObject.left += 5;
+  } else if (direction === directions.left) {
+    activeObject.left -= 5;
+  } 
+  else if (direction === directions.bottom) {
+    activeObject.top += 5;
+  } 
+  else if (direction === directions.top) {
+    activeObject.top -= 5;
+  } 
+  canvas.requestRenderAll();
 }
 
 setColorListener();
@@ -194,17 +209,25 @@ const modes = {
   pan: "pan",
   drawing: "drawing",
 };
+
+const directions = {
+  left: "left",
+  right: "right",
+  top: "top",
+  bottom: "bottom",
+};
+
 const reader = new FileReader();
-reader.addEventListener("load", () =>{
- fabric.Image.fromURL(reader.result, img => {
+reader.addEventListener("load", () => {
+  fabric.Image.fromURL(reader.result, (img) => {
     canvas.add(img);
     canvas.requestRenderAll();
-  })
-})
-   
+  });
+});
+
 setBackground(bgURL, canvas);
 
 setPanEvents(canvas);
 
-const inputImage = document.getElementById('myImage');
-inputImage.addEventListener('change', imgAdded)
+const inputImage = document.getElementById("myImage");
+inputImage.addEventListener("change", imgAdded);
