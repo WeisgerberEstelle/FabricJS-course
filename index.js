@@ -174,6 +174,12 @@ function restoreCanvas(canvas, state, bgURL) {
   }
 }
 
+function imgAdded(event) {
+  const inputImage = document.getElementById('myImage');
+  const file = inputImage.files[0];
+  reader.readAsDataURL(file);
+}
+
 setColorListener();
 const canvas = initCanvas("canvas");
 let mousePressed = false;
@@ -188,7 +194,17 @@ const modes = {
   pan: "pan",
   drawing: "drawing",
 };
-
+const reader = new FileReader();
+reader.addEventListener("load", () =>{
+ fabric.Image.fromURL(reader.result, img => {
+    canvas.add(img);
+    canvas.requestRenderAll();
+  })
+})
+   
 setBackground(bgURL, canvas);
 
 setPanEvents(canvas);
+
+const inputImage = document.getElementById('myImage');
+inputImage.addEventListener('change', imgAdded)
