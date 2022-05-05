@@ -77,7 +77,8 @@ function setColorListener() {
     canvas.renderAll();
   });
 }
-function clearCanvas(canvas) {
+function clearCanvas(canvas, state) {
+  state.val = canvas.toSVG();
   canvas.getObjects().forEach((object) => {
     if (object !== canvas.backgroundImage) {
       canvas.remove(object);
@@ -154,12 +155,22 @@ function groupObject(canvas, group, shouldGroup) {
     canvas.add(group.val);
     canvas.requestRenderAll();
   } else {
+    group.val.destroy();
     const oldGroup = group.val.getObjects();
     canvas.remove(group.val);
     canvas.add(...oldGroup);
     group.val = null;
     canvas.requestRenderAll();
+  }
+}
 
+function restoreCanvas(canvas, state, bgURL) {
+  if (state.val) {
+    fabric.loadSVGFromString(state.val, (objects) => {
+      objects = objects.filter(o => o['xlink:href'] !== bgURL)
+      canvas.add(...objects);
+      canvas.requestRenderAll();
+    });
   }
 }
 
@@ -168,6 +179,9 @@ const canvas = initCanvas("canvas");
 let mousePressed = false;
 let color = "#000000";
 let group = {};
+let svgState = {};
+const bgURL =
+  "https://www.consoglobe.com/wp-content/uploads/2021/11/chat-maison_2079791452_ban.jpg";
 
 let currentMode;
 const modes = {
@@ -175,9 +189,6 @@ const modes = {
   drawing: "drawing",
 };
 
-setBackground(
-  "https://www.consoglobe.com/wp-content/uploads/2021/11/chat-maison_2079791452_ban.jpg",
-  canvas
-);
+setBackground(bgURL, canvas);
 
 setPanEvents(canvas);

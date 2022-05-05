@@ -11,7 +11,9 @@
     Color: <input id="colorPicker" value="#000000" data-jscolor="">
     <button onclick="toggleMode(modes.pan)">Toggle Pan</button>
     <button onclick="toggleMode(modes.drawing)">Toggle Drawing</button>
-    <button onclick="clearCanvas(canvas)">Clear</button>
+    <button onclick="clearCanvas(canvas, svgState)">Clear</button>
+    <button onclick="restoreCanvas(canvas, svgState, bgURL)">Restore</button>
+
     <canvas id="canvas"></canvas>
     <div class="objectButton">
         <h3 class="title">Objects</h3>
@@ -21,6 +23,11 @@
             <button onclick="groupObject(canvas, group, true)">Group</button>
             <button onclick="groupObject(canvas, group, false)">Ungroup</button>
         </div>
+    </div>
+    <div class="objectButton">
+        <h3 class="title">Image</h3>
+        <div class="buttons"></div>
+        <input id="myImage" type="file" accept="image/">
     </div>
     <script src="./lib/fabric.min.js"></script>
     <script src="index.js"></script>
