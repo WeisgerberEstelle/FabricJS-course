@@ -49,7 +49,6 @@ function toggleMode(mode) {
 
 function setPanEvents(canvas) {
   canvas.on("mouse:move", (event) => {
-    //console.log();
     if (mousePressed && currentMode === modes.pan) {
       canvas.setCursor("grab");
       canvas.renderAll();
@@ -78,11 +77,21 @@ function setColorListener() {
   const picker = document.getElementById("colorPicker");
   picker.addEventListener("change", (event) => {
     color = event.target.value;
-    console.log(color);
+
     canvas.freeDrawingBrush.color = color;
     canvas.renderAll();
   });
 }
+function setBgColorListener() {
+  const picker = document.getElementById("colorPickerBg");
+  picker.addEventListener("change", (event) => {
+    color = event.target.value;
+
+    canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
+    canvas.renderAll();
+  });
+}
+
 function clearCanvas(canvas, state) {
   state.val = canvas.toSVG();
   canvas.getObjects().forEach((object) => {
@@ -207,12 +216,12 @@ const canvas = initCanvas("canvas");
 
 function changeBg(canvas, url) {
   canvas.setBackgroundColor({ source: url, repeat: "repeat" }, function () {
-    console.log("ok");
     canvas.renderAll();
   });
 }
 
 setColorListener();
+setBgColorListener();
 
 let mousePressed = false;
 let color = "#000000";
@@ -274,7 +283,6 @@ inputImage.addEventListener("change", imgAdded);
 
 // saveImg.addEventListener("click", saveImage(canvas));
 function saveImage(canvas) {
-  console.log("coucou");
   canvas.toCanvasElement().toBlob(function (blob) {
     saveAs(blob, "myimg.png");
   });

@@ -21,7 +21,7 @@
   <body>
     <div class="container d-flex flex-column align-items-center">
       <div class="options">
-        <input id="colorPicker" value="#000000" data-jscolor=""/>
+        <input id="colorPicker" value="#000000" data-jscolor="" class="form-control-sm"/>
         <button onclick="toggleMode(modes.pan)">
           <i class="bi bi-arrows-move"></i>
           Toggle Pan
@@ -82,15 +82,16 @@
             <input id="myImage" type="file" accept="image/" />
           </div>
           <div class="objectButton">
-            <h3 class="title fs-5"><i class="bi bi-image-fill"></i> Motifs</h3>
+            <h3 class="title fs-5"><i class="bi bi-image-fill"></i> Patterns</h3>
             <img src="/assets/images/pattern-cupcakes.jpg" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.cupcakes)" />
             <img src="/assets/images/pattern-fish.png" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.fish)" />
             <img src="/assets/images/pattern-flower.png" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.flower)" />
             <img src="/assets/images/pattern-leaf.png" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.leaf)"/>
-
+            <h3 class="title fs-5 mt-3">Background color</h3>
+            <input id="colorPickerBg" value="#000000" data-jscolor="" class="form-control-sm"/>
           </div>
           
-          <button class="save" onclick="saveImage(canvas)">
+          <button class="save mt-3" onclick="saveImage(canvas)">
             Save as image
           </button>
         </div>
