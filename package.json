@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/WeisgerberEstelle/FabricJS-course#readme",
   "dependencies": {
-    "fabric": "^5.2.1"
+    "fabric": "^5.2.1",
+    "file-saver": "^2.0.5"
   }
 }

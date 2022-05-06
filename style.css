@@ -16,9 +16,14 @@ button{
     padding: 0.5rem;
     border-radius: 50px;
     font-family: 'Bellota';
+    font-size:12px;
     font-weight: bold;
     color:rgb(30, 133, 114);
     background-color: azure;
     box-shadow: 2px 2px 5px rgb(30, 133, 114);
     margin-inline-end: 0.3rem;
+}
+
+.pattern{
+    width:50px
 }

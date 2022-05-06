@@ -1,19 +1,26 @@
 function initCanvas(id) {
   return new fabric.Canvas(id, {
-    width: 500,
+    width: 1300,
     height: 500,
   });
 }
-
-function setBackground(url, canvas) {
-  fabric.Image.fromURL(url, (img) => {
-    img.scaleX = 0.8;
-    img.scaleY = 0.8;
-    img.cropX = 370;
-
-    canvas.backgroundImage = img;
+function setCanvasColor(url, canvas) {
+  canvas.setBackgroundColor({ source: url, repeat: "repeat" }, function () {
     canvas.renderAll();
   });
+}
+function setBackground(url, canvas) {
+  fabric.Image.fromURL(
+    url,
+    (img) => {
+      img.scaleX = 0.8;
+      img.scaleY = 0.8;
+
+      canvas.backgroundImage = img;
+      canvas.renderAll();
+    },
+    { crossOrigin: "Anonymous" }
+  );
 }
 
 function toggleMode(mode) {
@@ -181,29 +188,46 @@ function imgAdded(event) {
 
 function move(canvas, direction) {
   const activeObject = canvas.getActiveObject();
-  if (direction === directions.right) {
-    activeObject.left += 5;
-  } else if (direction === directions.left) {
-    activeObject.left -= 5;
-  } 
-  else if (direction === directions.bottom) {
-    activeObject.top += 5;
-  } 
-  else if (direction === directions.top) {
-    activeObject.top -= 5;
-  } 
-  canvas.requestRenderAll();
+  try {
+    if (direction === directions.right) {
+      activeObject.left += 5;
+    } else if (direction === directions.left) {
+      activeObject.left -= 5;
+    } else if (direction === directions.bottom) {
+      activeObject.top += 5;
+    } else if (direction === directions.top) {
+      activeObject.top -= 5;
+    }
+    canvas.requestRenderAll();
+  } catch (err) {
+    throw "Please select an object : " + err.message;
+  }
+}
+const canvas = initCanvas("canvas");
+
+function changeBg(canvas, url) {
+  canvas.setBackgroundColor({ source: url, repeat: "repeat" }, function () {
+    console.log("ok");
+    canvas.renderAll();
+  });
 }
 
 setColorListener();
-const canvas = initCanvas("canvas");
+
 let mousePressed = false;
 let color = "#000000";
 let group = {};
 let svgState = {};
 const bgURL =
   "https://www.consoglobe.com/wp-content/uploads/2021/11/chat-maison_2079791452_ban.jpg";
+const cupcakesURL = "./assets/images/pattern-cupcakes.jpg";
 
+const patterns = {
+  cupcakes: "./assets/images/pattern-cupcakes.jpg",
+  fish: "./assets/images/pattern-fish.png",
+  flower: "./assets/images/pattern-flower.png",
+  leaf: "./assets/images/pattern-leaf.png",
+};
 let currentMode;
 const modes = {
   pan: "pan",
@@ -219,15 +243,39 @@ const directions = {
 
 const reader = new FileReader();
 reader.addEventListener("load", () => {
-  fabric.Image.fromURL(reader.result, (img) => {
-    canvas.add(img);
-    canvas.requestRenderAll();
-  });
+  fabric.Image.fromURL(
+    reader.result,
+    (img) => {
+      const canvCenter = canvas.getCenter();
+      img.left = canvCenter.left;
+      (img.originX = "center"), (img.scaleX = 0.5);
+      img.scaleY = 0.5;
+      canvas.add(img);
+      canvas.requestRenderAll();
+      img.animate("top", 100, {
+        onChange: canvas.renderAll.bind(canvas),
+        duration: 1000,
+        easing: fabric.util.ease.easeOutBounce,
+      });
+    },
+    { crossOrigin: "Anonymous" }
+  );
 });
 
-setBackground(bgURL, canvas);
+//setBackground(bgURL, canvas);
+setCanvasColor(cupcakesURL, canvas);
 
 setPanEvents(canvas);
 
 const inputImage = document.getElementById("myImage");
 inputImage.addEventListener("change", imgAdded);
+
+// const saveImg = document.querySelector('.save');
+
+// saveImg.addEventListener("click", saveImage(canvas));
+function saveImage(canvas) {
+  console.log("coucou");
+  canvas.toCanvasElement().toBlob(function (blob) {
+    saveAs(blob, "myimg.png");
+  });
+}
