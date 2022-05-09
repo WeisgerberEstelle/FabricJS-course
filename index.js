@@ -220,6 +220,26 @@ function changeBg(canvas, url) {
   });
 }
 
+function deleteItems(canvas) {
+  const activeObjects = canvas.getActiveObjects();
+  activeObjects.forEach(function (object) {
+    canvas.remove(object);
+    });
+    
+    canvas.discardActiveObject();
+    console.log(activeObjects);
+    canvas.renderAll();
+}
+
+function selectAll(canvas) {
+  canvas.discardActiveObject();
+  var sel = new fabric.ActiveSelection(canvas.getObjects(), {
+    canvas: canvas,
+  });
+  canvas.setActiveObject(sel);
+  canvas.requestRenderAll();
+}
+
 setColorListener();
 setBgColorListener();
 
