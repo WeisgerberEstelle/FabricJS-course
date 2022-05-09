@@ -21,15 +21,23 @@
   <body>
     <div class="container d-flex flex-column align-items-center">
       <div class="options">
-        <input id="colorPicker" value="#000000" data-jscolor="" class="form-control-sm"/>
+        <input
+          id="colorPicker"
+          value="#000000"
+          data-jscolor=""
+          class="form-control-sm"
+        />
         <button onclick="toggleMode(modes.pan)">
           <i class="bi bi-arrows-move"></i>
           Toggle Pan
         </button>
         <button onclick="toggleMode(modes.drawing)">
-          <i class="bi bi-pencil-fill"></i>
+          <i class="bi bi-pencil-square"></i>
           Toggle Drawing
         </button>
+        <button onclick="erase(canvas)"><i class="bi bi-eraser-fill"></i> Erase</button>
+        <button onclick="draw(canvas)"><i class="bi bi-pencil-fill"></i> Pen</button>
+
         <button onclick="clearCanvas(canvas, svgState)">
           <i class="bi bi-trash3-fill"></i>
           Clear
@@ -38,6 +46,7 @@
           <i class="bi bi-stars"></i>
           Restore
         </button>
+        <button onclick="undo(canvas)">Undo</button>
       </div>
       <div class="canvas d-flex justify-content-center gap-5 mt-3">
         <canvas id="canvas"></canvas>
@@ -58,10 +67,12 @@
               <button onclick="groupObject(canvas, group, false)">
                 <i class="bi bi-unlock-fill"></i> Ungroup
               </button>
-              <button onclick="selectAll(canvas)"><i class="bi bi-check2-all"> Select all</i></button>
+              <button onclick="selectAll(canvas)">
+                <i class="bi bi-check2-all"> Select all</i>
+              </button>
             </div>
           </div>
-          <div class="objectButton ">
+          <div class="objectButton">
             <h3 class="title fs-5">Modify</h3>
             <div class="buttons">
               <button onclick="move(canvas, directions.right)" class="right">
@@ -76,7 +87,9 @@
               <button onclick="move(canvas, directions.bottom)" class="bottom">
                 <i class="bi bi-arrow-down-circle-fill"></i>
               </button>
-              <button onclick="deleteItems(canvas)"><i class="bi bi-x-circle-fill"></i></button>
+              <button onclick="deleteItems(canvas)">
+                <i class="bi bi-x-circle-fill"></i>
+              </button>
             </div>
           </div>
           <div class="objectButton">
@@ -84,15 +97,42 @@
             <input id="myImage" type="file" accept="image/" />
           </div>
           <div class="objectButton">
-            <h3 class="title fs-5"><i class="bi bi-image-fill"></i> Patterns</h3>
-            <img src="/assets/images/pattern-cupcakes.jpg" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.cupcakes)" />
-            <img src="/assets/images/pattern-fish.png" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.fish)" />
-            <img src="/assets/images/pattern-flower.png" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.flower)" />
-            <img src="/assets/images/pattern-leaf.png" class="pattern" alt="cupcakes pattern" onclick="changeBg(canvas, patterns.leaf)"/>
+            <h3 class="title fs-5">
+              <i class="bi bi-image-fill"></i> Patterns
+            </h3>
+            <img
+              src="/assets/images/pattern-cupcakes.jpg"
+              class="pattern"
+              alt="cupcakes pattern"
+              onclick="changeBg(canvas, patterns.cupcakes)"
+            />
+            <img
+              src="/assets/images/pattern-fish.png"
+              class="pattern"
+              alt="cupcakes pattern"
+              onclick="changeBg(canvas, patterns.fish)"
+            />
+            <img
+              src="/assets/images/pattern-flower.png"
+              class="pattern"
+              alt="cupcakes pattern"
+              onclick="changeBg(canvas, patterns.flower)"
+            />
+            <img
+              src="/assets/images/pattern-leaf.png"
+              class="pattern"
+              alt="cupcakes pattern"
+              onclick="changeBg(canvas, patterns.leaf)"
+            />
             <h3 class="title fs-5 mt-3">Background color</h3>
-            <input id="colorPickerBg" value="#000000" data-jscolor="" class="form-control-sm"/>
+            <input
+              id="colorPickerBg"
+              value="#000000"
+              data-jscolor=""
+              class="form-control-sm"
+            />
           </div>
-          
+
           <button class="save mt-3" onclick="saveImage(canvas)">
             Save as image
           </button>

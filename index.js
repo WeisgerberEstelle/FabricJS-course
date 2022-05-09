@@ -47,6 +47,20 @@ function toggleMode(mode) {
   }
 }
 
+function erase(canvas) {
+  if (currentMode === modes.drawing) {
+    canvas.freeDrawingBrush = new fabric.EraserBrush(canvas);
+    canvas.freeDrawingBrush.width = 10;
+  }
+}
+
+function draw(canvas) {
+  if (currentMode === modes.drawing) {
+    canvas.freeDrawingBrush = new fabric.SprayBrush(canvas);
+    canvas.freeDrawingBrush.width = 15;
+  }
+}
+
 function setPanEvents(canvas) {
   canvas.on("mouse:move", (event) => {
     if (mousePressed && currentMode === modes.pan) {
@@ -189,6 +203,10 @@ function restoreCanvas(canvas, state, bgURL) {
   }
 }
 
+function undo(canvas) {
+  canvas.undo();
+}
+
 function imgAdded(event) {
   const inputImage = document.getElementById("myImage");
   const file = inputImage.files[0];
@@ -224,11 +242,11 @@ function deleteItems(canvas) {
   const activeObjects = canvas.getActiveObjects();
   activeObjects.forEach(function (object) {
     canvas.remove(object);
-    });
-    
-    canvas.discardActiveObject();
-    console.log(activeObjects);
-    canvas.renderAll();
+  });
+
+  canvas.discardActiveObject();
+  console.log(activeObjects);
+  canvas.renderAll();
 }
 
 function selectAll(canvas) {
