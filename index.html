@@ -141,8 +141,13 @@
             <button onclick="addText(canvas)">
               <i class="bi bi-textarea-t"></i> Text
             </button>
+            <button onclick="bolder()" class="fw-bold py-0">
+              <i class="bi bi-type-bold fs-5"></i>
+            </button>
+            <button onclick="italic()" class="fw-bold py-0">
+              <i class="bi bi-type-italic fs-5"></i>
+            </button>
             <select name="font-family" id="font-family" class="fonts">
-       
               <option class="bellota" value="Bellota">Bellota</option>
               <option class="verdana" value="Verdana">Verdana</option>
               <option class="cambria" value="Cambria">Cambria</option>
@@ -156,9 +161,15 @@
               <option class="title" value="40">Large</option>
               <option class="main" value="48">Extra large</option>
             </select>
-            <button onclick="bolder()"class="fw-bold py-0"><i class="bi bi-type-bold fs-5"></i></button>
-            <button onclick="italic()"class="fw-bold py-0"><i class="bi bi-type-italic fs-5"></i></button>
-
+            <div class="text-color my-3">
+              <h3 class="title fs-5">Text color</h3>
+              <input
+                id="colorPickerText"
+                value="#000000"
+                data-jscolor=""
+                class="form-control-sm"
+              />
+            </div>
           </div>
 
           <button class="save mt-3" onclick="saveImage(canvas)">

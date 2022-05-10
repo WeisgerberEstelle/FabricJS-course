@@ -96,12 +96,26 @@ function setColorListener() {
     canvas.renderAll();
   });
 }
+
 function setBgColorListener() {
   const picker = document.getElementById("colorPickerBg");
   picker.addEventListener("change", (event) => {
     color = event.target.value;
 
     canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
+    canvas.renderAll();
+  });
+}
+
+function setColorTextListener() {
+  const picker = document.getElementById("colorPickerText");
+  picker.addEventListener("change", (event) => {
+    color = event.target.value;
+    canvas.getActiveObjects().filter(function (o) {
+      if (o.get("type") === "textbox") {
+        o.set({ fill: color });
+      }
+    });
     canvas.renderAll();
   });
 }
@@ -267,22 +281,22 @@ function bolder() {
   canvas.getActiveObjects().filter(function (o) {
     if (o.get("type") === "textbox") {
       if (o.fontWeight === "bold") {
-        o.fontWeight="normal";
-      }else if(o.fontWeight === "normal") {
-        o.fontWeight="bold";
+        o.fontWeight = "normal";
+      } else if (o.fontWeight === "normal") {
+        o.fontWeight = "bold";
       }
     }
     canvas.renderAll();
   });
 }
 
-function italic(){
+function italic() {
   canvas.getActiveObjects().filter(function (o) {
     if (o.get("type") === "textbox") {
       if (o.fontStyle === "normal") {
-        o.fontStyle="italic";
-      }else if(o.fontStyle === "italic") {
-        o.fontStyle="normal";
+        o.fontStyle = "italic";
+      } else if (o.fontStyle === "italic") {
+        o.fontStyle = "normal";
       }
     }
     canvas.renderAll();
@@ -291,6 +305,7 @@ function italic(){
 
 setColorListener();
 setBgColorListener();
+setColorTextListener();
 
 let mousePressed = false;
 let color = "#000000";
