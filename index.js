@@ -204,7 +204,7 @@ function restoreCanvas(canvas, state, bgURL) {
 }
 
 function addText(canvas) {
-  const textBox = new fabric.Textbox("Text here", { editable: true });
+  const textBox = new fabric.Textbox("Text here", { editable: true,fontSize:24 });
   canvas.add(textBox);
   canvas.requestRenderAll();
 }
@@ -247,7 +247,7 @@ function deleteItems(canvas) {
   });
 
   canvas.discardActiveObject();
-  console.log(activeObjects);
+ 
   canvas.renderAll();
 }
 
@@ -328,8 +328,6 @@ function saveImage(canvas) {
 // listen selected font
 const fonts = document.querySelector(".fonts");
 fonts.addEventListener("change", (event) => {
-  // const result = document.querySelector(".result");
-  // console.log(`You like ${event.target.value}`);
   canvas.getActiveObjects().filter(function (o) {
     if (o.get("type") === "textbox") {
       o.fontFamily = event.target.value;
@@ -338,3 +336,15 @@ fonts.addEventListener("change", (event) => {
   
   });
 });
+
+const sizes = document.querySelector(".sizes");
+sizes.addEventListener("change", (event) => {
+  canvas.getActiveObjects().filter(function (o) {
+    if (o.get("type") === "textbox") {
+      o.fontSize = event.target.value;
+    }
+    canvas.renderAll();
+  
+  });
+});
+ 
