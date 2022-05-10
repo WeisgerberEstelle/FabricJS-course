@@ -35,8 +35,12 @@
           <i class="bi bi-pencil-square"></i>
           Toggle Drawing
         </button>
-        <button onclick="erase(canvas)"><i class="bi bi-eraser-fill"></i> Erase</button>
-        <button onclick="draw(canvas)"><i class="bi bi-pencil-fill"></i> Pen</button>
+        <button onclick="erase(canvas)">
+          <i class="bi bi-eraser-fill"></i> Erase
+        </button>
+        <button onclick="draw(canvas)">
+          <i class="bi bi-pencil-fill"></i> Pen
+        </button>
 
         <button onclick="clearCanvas(canvas, svgState)">
           <i class="bi bi-trash3-fill"></i>
@@ -131,6 +135,19 @@
               data-jscolor=""
               class="form-control-sm"
             />
+          </div>
+          <div class="objectButton">
+            <h3 class="title fs-5">Text</h3>
+            <button onclick="addText(canvas)">
+              <i class="bi bi-textarea-t"></i> Text
+            </button>
+            <select name="font-family" id="font-family" class="fonts">
+       
+              <option class="bellota" value="Bellota">Bellota</option>
+              <option class="verdana" value="Verdana">Verdana</option>
+              <option class="cambria" value="Cambria">Cambria</option>
+              <option class="courier" value="Courier new">Courier new</option>
+            </select>
           </div>
 
           <button class="save mt-3" onclick="saveImage(canvas)">

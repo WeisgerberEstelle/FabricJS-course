@@ -203,8 +203,10 @@ function restoreCanvas(canvas, state, bgURL) {
   }
 }
 
-function undo(canvas) {
-  canvas.undo();
+function addText(canvas) {
+  const textBox = new fabric.Textbox("Text here", { editable: true });
+  canvas.add(textBox);
+  canvas.requestRenderAll();
 }
 
 function imgAdded(event) {
@@ -317,11 +319,22 @@ setPanEvents(canvas);
 const inputImage = document.getElementById("myImage");
 inputImage.addEventListener("change", imgAdded);
 
-// const saveImg = document.querySelector('.save');
-
-// saveImg.addEventListener("click", saveImage(canvas));
 function saveImage(canvas) {
   canvas.toCanvasElement().toBlob(function (blob) {
     saveAs(blob, "myimg.png");
   });
 }
+
+// listen selected font
+const fonts = document.querySelector(".fonts");
+fonts.addEventListener("change", (event) => {
+  // const result = document.querySelector(".result");
+  // console.log(`You like ${event.target.value}`);
+  canvas.getActiveObjects().filter(function (o) {
+    if (o.get("type") === "textbox") {
+      o.fontFamily = event.target.value;
+    }
+    canvas.renderAll();
+  
+  });
+});

@@ -25,5 +25,21 @@ button{
 }
 
 .pattern{
-    width:50px
+    width:50px;
+}
+
+.verdana {
+    font-family: Verdana;
+}
+
+.cambria{
+    font-family: Cambria;
+}
+
+.bellota{
+    font-family: 'Bellota';
+}
+
+.courier{
+    font-family: 'Courier new';
 }
