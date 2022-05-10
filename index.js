@@ -204,7 +204,10 @@ function restoreCanvas(canvas, state, bgURL) {
 }
 
 function addText(canvas) {
-  const textBox = new fabric.Textbox("Text here", { editable: true,fontSize:24 });
+  const textBox = new fabric.Textbox("Text here", {
+    editable: true,
+    fontSize: 24,
+  });
   canvas.add(textBox);
   canvas.requestRenderAll();
 }
@@ -247,7 +250,7 @@ function deleteItems(canvas) {
   });
 
   canvas.discardActiveObject();
- 
+
   canvas.renderAll();
 }
 
@@ -258,6 +261,32 @@ function selectAll(canvas) {
   });
   canvas.setActiveObject(sel);
   canvas.requestRenderAll();
+}
+
+function bolder() {
+  canvas.getActiveObjects().filter(function (o) {
+    if (o.get("type") === "textbox") {
+      if (o.fontWeight === "bold") {
+        o.fontWeight="normal";
+      }else if(o.fontWeight === "normal") {
+        o.fontWeight="bold";
+      }
+    }
+    canvas.renderAll();
+  });
+}
+
+function italic(){
+  canvas.getActiveObjects().filter(function (o) {
+    if (o.get("type") === "textbox") {
+      if (o.fontStyle === "normal") {
+        o.fontStyle="italic";
+      }else if(o.fontStyle === "italic") {
+        o.fontStyle="normal";
+      }
+    }
+    canvas.renderAll();
+  });
 }
 
 setColorListener();
@@ -333,7 +362,6 @@ fonts.addEventListener("change", (event) => {
       o.fontFamily = event.target.value;
     }
     canvas.renderAll();
-  
   });
 });
 
@@ -344,7 +372,5 @@ sizes.addEventListener("change", (event) => {
       o.fontSize = event.target.value;
     }
     canvas.renderAll();
-  
   });
 });
- 
