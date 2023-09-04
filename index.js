@@ -226,11 +226,7 @@ function addText(canvas) {
   canvas.requestRenderAll();
 }
 
-function imgAdded(event) {
-  const inputImage = document.getElementById("myImage");
-  const file = inputImage.files[0];
-  reader.readAsDataURL(file);
-}
+
 
 function move(canvas, direction) {
   const activeObject = canvas.getActiveObject();
@@ -335,6 +331,7 @@ const directions = {
 };
 
 const reader = new FileReader();
+console.log(reader);
 reader.addEventListener("load", () => {
   fabric.Image.fromURL(
     reader.result,
@@ -355,6 +352,11 @@ reader.addEventListener("load", () => {
   );
 });
 
+function imgAdded(event) {
+  const inputImage = document.getElementById("myImage");
+  const file = inputImage.files[0];
+  reader.readAsDataURL(file);
+}
 //setBackground(bgURL, canvas);
 setCanvasColor(cupcakesURL, canvas);
 
@@ -389,3 +391,20 @@ sizes.addEventListener("change", (event) => {
     canvas.renderAll();
   });
 });
+
+const Point = fabric.util.createClass({
+  initialize: function(x, y) {
+      this.x = x || 0
+      this.y = y || 0
+  },
+  toString: function() {
+      return this.x + '/' + this.y;
+  }
+});
+
+var point = new Point(10, 20);
+
+point.x; // 10
+point.y; // 20
+
+point.toString();
